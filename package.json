@@ -1,0 +1,16 @@
+{
+  "name": "mentalmatters",
+  "scripts": {
+    "start": "ts-node src/Bot.ts"
+  },
+  "dependencies": {
+    "@tdanks2000/fancyconsolelog": "^0.0.3",
+    "discord.js": "^14.11.0",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.3.1",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.3"
+  }
+}
