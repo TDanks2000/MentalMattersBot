@@ -1,0 +1,51 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model GuildConfig {
+  id         Int     @id @default(autoincrement())
+  guild_id   String  @unique
+  guild_icon String?
+}
+
+model PollVotes {
+  id           Int      @id @default(autoincrement())
+  guild_id     String
+  message_id   String
+  ownder_id    String
+  up_members   String[] @default([])
+  down_members String[] @default([])
+  upvotes      Int      @default(0)
+  downvotes    Int      @default(0)
+}
+
+model Balance {
+  id       String @id @default(uuid())
+  user_id  String
+  guild_id String
+  balance  Int    @default(0)
+}
+
+model CountingGame {
+  id             String @id @default(uuid())
+  channel_id     String @unique
+  count          Int    @default(1)
+  last_person_id String
+}
+
+model Level {
+  id       String @id @default(uuid())
+  user_id  String
+  guild_id String
+  xp       Int    @default(0)
+  level    Int    @default(0)
+}
