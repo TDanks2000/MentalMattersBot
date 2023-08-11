@@ -1,4 +1,4 @@
-import { Guild, GuildApplicationCommandManager } from "discord.js";
+import { ChatInputCommandInteraction, Guild, GuildApplicationCommandManager } from "discord.js";
 import {
   CommandHandlerData,
   CommandHandlerOptions,
@@ -31,21 +31,15 @@ export class CommandHandler {
     );
 
     for (const commandFilePath of commandFilePaths) {
-      const commandObj:
-        | SlashCommandObject
-        | ContextCommandObject = require(commandFilePath);
+      const commandObj: SlashCommandObject | ContextCommandObject = require(commandFilePath);
 
       if (!commandObj.data) {
-        console.error(
-          `⏩ Ignoring: Command ${commandFilePath} does not export "data".`
-        );
+        console.error(`⏩ Ignoring: Command ${commandFilePath} does not export "data".`);
         continue;
       }
 
       if (!commandObj.run) {
-        console.error(
-          `⏩ Ignoring: Command ${commandFilePath} does not export "run".`
-        );
+        console.error(`⏩ Ignoring: Command ${commandFilePath} does not export "run".`);
         continue;
       }
 
@@ -87,9 +81,7 @@ export class CommandHandler {
       for (const command of commands) {
         // <!-- Delete command if options.deleted -->
         if (command.options?.deleted) {
-          const targetCommand = appCommands?.cache.find(
-            (cmd) => cmd.name === command.data.name
-          );
+          const targetCommand = appCommands?.cache.find((cmd) => cmd.name === command.data.name);
 
           if (!targetCommand) {
             console.warn(
@@ -97,16 +89,12 @@ export class CommandHandler {
             );
           } else {
             targetCommand.delete().then(() => {
-              console.warn(
-                `🚮 Deleted command "${command.data.name}" globally.`
-              );
+              console.warn(`🚮 Deleted command "${command.data.name}" globally.`);
             });
           }
 
           for (const guildCommands of devGuildCommands) {
-            const targetCommand = guildCommands.cache.find(
-              (cmd) => cmd.name === command.data.name
-            );
+            const targetCommand = guildCommands.cache.find((cmd) => cmd.name === command.data.name);
 
             if (!targetCommand) {
               console.warn(
@@ -130,9 +118,7 @@ export class CommandHandler {
 
         (() => {
           // global
-          const appGlobalCommand = appCommands?.cache.find(
-            (cmd) => cmd.name === command.data.name
-          );
+          const appGlobalCommand = appCommands?.cache.find((cmd) => cmd.name === command.data.name);
 
           if (appGlobalCommand) {
             const commandsAreDifferent = this._areSlashCommandsDifferent(
@@ -144,14 +130,10 @@ export class CommandHandler {
               appGlobalCommand
                 .edit(commandData)
                 .then(() => {
-                  console.info(
-                    `✅ Edited command "${commandData.name}" globally.`
-                  );
+                  console.info(`✅ Edited command "${commandData.name}" globally.`);
                 })
                 .catch((error) => {
-                  console.error(
-                    `❌ Failed to edit command "${commandData.name}" globally.`
-                  );
+                  console.error(`❌ Failed to edit command "${commandData.name}" globally.`);
                   console.error(error);
                 });
 
@@ -205,17 +187,13 @@ export class CommandHandler {
           }
 
           for (const guild of devGuilds) {
-            const cmdExists = guild.commands.cache.some(
-              (cmd) => cmd.name === command.data.name
-            );
+            const cmdExists = guild.commands.cache.some((cmd) => cmd.name === command.data.name);
             if (cmdExists) continue;
 
             guild?.commands
               .create(command.data)
               .then(() => {
-                console.info(
-                  `✅ Registered command "${command.data.name}" in ${guild.name}.`
-                );
+                console.info(`✅ Registered command "${command.data.name}" in ${guild.name}.`);
               })
               .catch((error) => {
                 console.error(
@@ -227,22 +205,16 @@ export class CommandHandler {
         }
         // global command registration
         else {
-          const cmdExists = appCommands?.cache.some(
-            (cmd) => cmd.name === command.data.name
-          );
+          const cmdExists = appCommands?.cache.some((cmd) => cmd.name === command.data.name);
           if (cmdExists) continue;
 
           appCommands
             ?.create(command.data)
             .then(() => {
-              console.info(
-                `✅ Registered command "${command.data.name}" globally.`
-              );
+              console.info(`✅ Registered command "${command.data.name}" globally.`);
             })
             .catch((error) => {
-              console.error(
-                `❌ Failed to register command "${command.data.name}" globally.`
-              );
+              console.error(`❌ Failed to register command "${command.data.name}" globally.`);
               console.error(error);
             });
         }
@@ -254,11 +226,7 @@ export class CommandHandler {
     const client = this._data.client;
 
     client.on("interactionCreate", async (interaction) => {
-      if (
-        !interaction.isChatInputCommand() &&
-        !interaction.isContextMenuCommand()
-      )
-        return;
+      if (!interaction.isChatInputCommand() && !interaction.isContextMenuCommand()) return;
 
       const targetCommand = this._data.commands.find(
         (cmd) => cmd.data.name === interaction.commandName
@@ -349,7 +317,8 @@ export class CommandHandler {
       }
 
       if (canRun) {
-        targetCommand.run({ interaction, client });
+        const int = interaction as ChatInputCommandInteraction<"cached">;
+        targetCommand.run({ interaction: int, client });
       }
     });
   }

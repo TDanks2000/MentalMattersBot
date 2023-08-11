@@ -5,24 +5,32 @@
   "scripts": {
     "start": "node .",
     "dev": "nodemon --config nodemon.json src/Bot.ts",
-    "build": "tsc"
+    "build": "tsc",
+    "db:pull": "prisma db pull",
+    "db:generate": "prisma generate"
   },
   "dependencies": {
     "@discordjs/opus": "^0.9.0",
     "@discordjs/voice": "^0.16.0",
-    "@prisma/client": "^5.0.0",
-    "@tdanks2000/fancyconsolelog": "^0.0.3",
+    "@prisma/client": "^5.1.1",
+    "@tdanks2000/fancyconsolelog": "^0.1.0",
     "@types/libsodium-wrappers": "^0.7.10",
     "ascii-table3": "^0.8.2",
     "dayjs": "^1.11.9",
-    "discord.js": "^14.11.0",
-    "distube": "^4.0.5",
+    "discord.js": "^14.12.1",
+    "distube": "^4.0.6",
     "dotenv": "^16.3.1",
+    "fuse.js": "^6.6.2",
     "libsodium-wrappers": "^0.7.11",
-    "ora": "^6.3.1"
+    "ora": "^6.3.1",
+    "play-dl": "^1.9.6",
+    "youtube-sr": "^4.3.4",
+    "yt-search": "^2.10.4"
   },
   "devDependencies": {
-    "@types/node": "^20.4.4",
+    "@types/node": "^20.4.10",
+    "@types/yt-search": "^2.3.2",
+    "prisma": "^5.1.1",
     "ts-node": "^10.9.1",
     "typescript": "^5.1.6"
   },

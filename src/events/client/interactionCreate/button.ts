@@ -1,6 +1,6 @@
 import { EmbedBuilder, Interaction, PermissionsBitField } from "discord.js";
 import Console from "@tdanks2000/fancyconsolelog";
-import { ClientClass } from "src/structure/Client";
+import { ClientClass } from "../../../structure/Client";
 
 const console = new Console();
 
@@ -13,9 +13,7 @@ module.exports = async (interaction: Interaction, client: ClientClass) => {
   try {
     if (button.permissions) {
       if (
-        !interaction.memberPermissions!.has(
-          PermissionsBitField.resolve(button.permissions || [])
-        )
+        !interaction.memberPermissions!.has(PermissionsBitField.resolve(button.permissions || []))
       ) {
         const perms = new EmbedBuilder()
           .setDescription(
@@ -24,8 +22,8 @@ module.exports = async (interaction: Interaction, client: ClientClass) => {
           .setColor("Red");
         return interaction.reply({ embeds: [perms], ephemeral: true });
       }
-      await button.run(client, interaction);
     }
+    await button.run(interaction, client);
   } catch (error) {
     console.log((error as Error).message);
   }

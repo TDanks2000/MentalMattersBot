@@ -8,10 +8,15 @@ import {
   ContextMenuCommandBuilder,
   CommandInteraction,
   ContextMenuCommandInteraction,
+  AutocompleteInteraction,
+  TextChannel,
+  ChatInputCommandInteraction,
 } from "discord.js";
+import { ClientClass } from "../structure/Client";
+import { VoiceConnection } from "@discordjs/voice";
 
 export interface HandlerOptions {
-  client: Client;
+  client: ClientClass;
   commandsPath?: string;
   eventsPath?: string;
   validationsPath?: string;
@@ -41,7 +46,14 @@ export interface SlashCommandObject {
     userPermissions?: PermissionResolvable[];
     botPermissions?: PermissionResolvable[];
   };
-  run: ({}: { interaction: CommandInteraction; client: Client }) => void;
+  autocomplete?: (Interaction: AutocompleteInteraction<"cached">, client: ClientClass) => void;
+  run: ({
+    interaction,
+    client,
+  }: {
+    interaction: ChatInputCommandInteraction<"cached">;
+    client: ClientClass;
+  }) => void;
 }
 
 export interface ContextCommandObject {
@@ -60,10 +72,17 @@ export interface ContextCommandObject {
     userPermissions?: PermissionResolvable[];
     botPermissions?: PermissionResolvable[];
   };
-  run: ({}: { interaction: Interaction; client: Client }) => void;
+  autocomplete: ({}: { interaction: CommandInteraction; client: ClientClass }) => void;
+  run: ({}: { interaction: Interaction; client: ClientClass }) => void;
 }
 
 export type CommandProps = {
   interaction: CommandInteraction;
   client: Client;
 };
+
+export interface QueueOptions {
+  interaction: CommandInteraction;
+  textChannel: TextChannel;
+  connection: VoiceConnection;
+}

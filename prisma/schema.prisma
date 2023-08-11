@@ -11,38 +11,44 @@ datasource db {
   directUrl = env("DIRECT_URL")
 }
 
-model GuildConfig {
-  id         Int     @id @default(autoincrement())
-  guild_id   String  @unique
-  guild_icon String?
+model guild_config {
+  id              Int      @id @default(autoincrement())
+  guild_id        String   @unique
+  rankup_messages Boolean? @default(false)
+  join_messages   Boolean? @default(false)
+
+  bannedWords String[] @default([])
 }
 
-model PollVotes {
+// This is the model for the EconomySettings table
+
+model poll_votes {
   id           Int      @id @default(autoincrement())
   guild_id     String
   message_id   String
-  ownder_id    String
+  owner_id     String
   up_members   String[] @default([])
   down_members String[] @default([])
   upvotes      Int      @default(0)
   downvotes    Int      @default(0)
 }
 
-model Balance {
+model balance {
   id       String @id @default(uuid())
   user_id  String
   guild_id String
   balance  Int    @default(0)
 }
 
-model CountingGame {
+model counting_game {
   id             String @id @default(uuid())
+  guild_id       String
   channel_id     String @unique
   count          Int    @default(1)
   last_person_id String
 }
 
-model Level {
+model level {
   id       String @id @default(uuid())
   user_id  String
   guild_id String

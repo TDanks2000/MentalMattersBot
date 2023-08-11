@@ -7,8 +7,8 @@ dayjs.extend(relativeTime);
 
 import { SlashCommandObject } from "../../types";
 import { pingStats, toFixedNumber } from "../../functions";
-import { EmbedBuilder, HexColorString } from "discord.js";
-import { ClientClass } from "../../structure/Client";
+import { EmbedBuilder } from "discord.js";
+import { config } from "../../utils";
 
 const command: SlashCommandObject = {
   data: {
@@ -22,7 +22,7 @@ const command: SlashCommandObject = {
 
     const embed = new EmbedBuilder()
       .setTitle("🏓 PONG!")
-      .setColor((client as ClientClass).config.color as HexColorString)
+      .setColor(config.color)
       .addFields(
         {
           name: "Api Latency",
@@ -31,9 +31,7 @@ const command: SlashCommandObject = {
         },
         {
           name: "Client Latency",
-          value: `${
-            Date.now() - (new Date(interaction.createdTimestamp) as any)
-          }ms`,
+          value: `${Date.now() - (new Date(interaction.createdTimestamp) as any)}ms`,
           inline: true,
         },
         {

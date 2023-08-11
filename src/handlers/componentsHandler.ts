@@ -18,10 +18,10 @@ export class ComponentHandler {
   }
 
   async _init() {
-    const componentFolders = fs.readdirSync("./src/components");
+    const componentFolders = fs.readdirSync(this._data.componentsPath);
     for (const folder of componentFolders) {
       const componentFile = fs
-        .readdirSync(`./src/components/${folder}`)
+        .readdirSync(`${this._data.componentsPath}/${folder}`)
         .filter((path) => path.endsWith(".js") || path.endsWith(".ts"));
 
       switch (folder) {

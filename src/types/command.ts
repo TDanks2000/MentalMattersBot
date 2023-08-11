@@ -1,8 +1,9 @@
 import { Client } from "discord.js";
 import { ContextCommandObject, SlashCommandObject } from ".";
+import { ClientClass } from "../structure/Client";
 
 export interface CommandHandlerOptions {
-  client: Client;
+  client: ClientClass;
   commandsPath: string;
   devGuildIds: string[];
   devUserIds: string[];

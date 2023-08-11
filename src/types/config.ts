@@ -1,9 +1,9 @@
-export interface IProcessEnv {
-  BotToken: string;
+export interface Config {
+  color: `#${string}`;
+  music: {
+    max_playlist_size: number;
+    default_volume: number;
+  };
 }
 
-declare global {
-  namespace NodeJS {
-    interface ProcessEnv extends IProcessEnv {}
-  }
-}
+export type BannedWordsConfig = string[];
