@@ -5,3 +5,4 @@ export * from "./patterns";
 export * from "./config";
 export * from "./helpers";
 export * from "./music";
+export * from "./leveling";
